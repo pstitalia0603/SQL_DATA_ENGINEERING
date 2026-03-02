@@ -84,6 +84,8 @@ GROUP BY job_title_short;
     -- 75K - 150K 'Medium'
     -- >= 150K 'High'
 
+-- FINAL EXAMPLE 
+
 WITH salaries AS (
     SELECT
         job_title_short,
@@ -98,10 +100,12 @@ WITH salaries AS (
 )
 SELECT *,
     CASE
+        WHEN standardized_salary IS NULL THEN 'Missing'
         WHEN standardized_salary <75_000 THEN 'Low'
-        WHEN standardized_salary <150_000 THEN 'Medium'
+        WHEN standardized_salary <150_000 THEN 'Mid'
         ELSE 'High'
     END AS salary_bucket
 FROM salaries
 ORDER BY RANDOM()
 LIMIT 20;
+
