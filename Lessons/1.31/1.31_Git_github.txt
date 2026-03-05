@@ -1,0 +1,30 @@
+git branch
+
+#create new branch
+git branch feature/project2-readme
+
+# switch to that branch
+git switch feature/project2-readme
+
+# delete (inactive) branch
+git branch -d feature/project2-readme
+
+#create and switch to new branch
+git switch -c feature/project2-readme
+
+
+#add to new branch
+git push -u origin feature/project2-readme
+
+
+#fast-forward merge
+git switch main
+git pull origin main
+git merge feature/project2-readme
+git push
+
+git branch -d feature/prject2-readme
+git push origin --delete feature/project2-readme
+
+
+#three-way merge
