@@ -1,22 +1,33 @@
---Step 1: DW - Create star schema tables
+-- Step 1: DW - Create star schema tables (Data Warehouse)
+-- Run this first
 
+-- Set up initial configurations
+PRAGMA enable_progress_bar;
+PRAGMA enable_checkpoint_on_shutdown;
+
+-- Drop existing tables if they exist (for idempotency)
 DROP TABLE IF EXISTS skills_job_dim;
 DROP TABLE IF EXISTS job_postings_fact;
-DROP TABLE IF EXISTS company_dim;
 DROP TABLE IF EXISTS skills_dim;
+DROP TABLE IF EXISTS company_dim;
 
-
+-- Create company_dim table
 CREATE TABLE company_dim (
     company_id INTEGER PRIMARY KEY,
-    name VARCHAR
+    name VARCHAR,
+    link VARCHAR,
+    link_google VARCHAR,
+    thumbnail VARCHAR
 );
 
+-- Create skills_dim table
 CREATE TABLE skills_dim (
     skill_id INTEGER PRIMARY KEY,
     skills VARCHAR,
     type VARCHAR
 );
 
+-- Create job_postings_fact table (must be created before skills_job_dim)
 CREATE TABLE job_postings_fact (
     job_id INTEGER PRIMARY KEY,
     company_id INTEGER,
@@ -25,7 +36,7 @@ CREATE TABLE job_postings_fact (
     job_location VARCHAR,
     job_via VARCHAR,
     job_schedule_type VARCHAR,
-    job_work_from_home VARCHAR,
+    job_work_from_home BOOLEAN,
     search_location VARCHAR,
     job_posted_date TIMESTAMP,
     job_no_degree_mention BOOLEAN,
@@ -37,6 +48,7 @@ CREATE TABLE job_postings_fact (
     FOREIGN KEY (company_id) REFERENCES company_dim(company_id)
 );
 
+-- Create skills_job_dim bridge table (after job_postings_fact exists)
 CREATE TABLE skills_job_dim (
     skill_id INTEGER,
     job_id INTEGER,
@@ -45,8 +57,5 @@ CREATE TABLE skills_job_dim (
     FOREIGN KEY (job_id) REFERENCES job_postings_fact(job_id)
 );
 
---SHOW TABLES;
-
-SELECT table_name
-FROM information_schema.tables
-WHERE table_schema = 'main';
+-- Verify tables were created
+SHOW TABLES;
