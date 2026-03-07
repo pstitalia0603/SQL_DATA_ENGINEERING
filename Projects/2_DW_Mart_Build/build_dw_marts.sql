@@ -1,4 +1,7 @@
 -- RUN : duckdb dw_marts.duckdb -c ".read build_dw_marts.sql"
+-- RUN md1: duckdb md: 
+-- RUN md3: CREATE DATABASE dw_marts;
+-- RUN md2: duckdb md: dw_marts -c ".read build_dw_marts.sql"
 
 -- Step 1 - DW - Create star schema tables
 
