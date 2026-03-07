@@ -36,3 +36,4 @@ __pycache__/
 data/
 course_build.sql
 .cursorrules
+.code-workspace
