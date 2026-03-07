@@ -3,6 +3,7 @@
 *.duckdb.wal
 *.sqlite
 *.db
+*.zip
 
 # 📊 Raw data
 /data/raw/
